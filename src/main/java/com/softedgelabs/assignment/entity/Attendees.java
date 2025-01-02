@@ -16,9 +16,10 @@ public class Attendees {
     private Integer id;
     private String name;
     private String email;
+    private String password;
 
     @ManyToOne
-    @JoinColumn(name = "registered_events", nullable = false)
+    @JoinColumn(name = "registered_events")
     private Events registeredEvent;
 
 }
