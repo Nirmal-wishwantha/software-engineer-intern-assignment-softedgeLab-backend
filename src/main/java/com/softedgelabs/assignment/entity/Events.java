@@ -1,0 +1,35 @@
+package com.softedgelabs.assignment.entity;
+
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class Events {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String name;
+    private String description;
+    private Date date;
+    private String location;
+    private String createdBy;
+    private int capacity;
+    private int remainingCapacity;
+    private String tags;
+
+    @OneToMany(mappedBy = "registeredEvent", cascade = CascadeType.ALL)
+    private List<Attendees> attendees = new ArrayList<Attendees>();
+
+}
