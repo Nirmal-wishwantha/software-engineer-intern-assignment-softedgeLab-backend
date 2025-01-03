@@ -8,6 +8,8 @@ import com.softedgelabs.assignment.service.EventsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EventsImpl implements EventsService {
 
@@ -23,11 +25,30 @@ public class EventsImpl implements EventsService {
     public EventResponseDto addEvent(EventDto eventDto) {
         Events save = eventsRepo.save(new Events(null, eventDto.getName(), eventDto.getDescription(), eventDto.getDate(),
                 eventDto.getLocation(), eventDto.getCreatedBy(), eventDto.getCapacity(), eventDto.getRemainingCapacity(),
-                eventDto.getTags(), null));
+                eventDto.getTags()));
 
 
         return new EventResponseDto(save.getId(),save.getName(),save.getDescription(),save.getDate(),save.getLocation(),
                 save.getCreatedBy(),save.getCapacity(),save.getRemainingCapacity(),save.getTags(),"New Event Add Successful");
+    }
+
+
+    @Override
+    public EventResponseDto updateEvent(EventDto eventDto) {
+        return null;
+    }
+
+    @Override
+    public String deleteEvent(Integer id) {
+
+        Optional<Events> byId = eventsRepo.findById(id);
+
+        if (byId.isPresent()) {
+            eventsRepo.deleteById(id);
+            return "Event Deleted Successfully";
+        }
+        return "Event Not Found";
+
     }
 
 
