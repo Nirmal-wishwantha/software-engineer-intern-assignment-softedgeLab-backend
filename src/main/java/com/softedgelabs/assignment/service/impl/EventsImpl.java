@@ -26,6 +26,9 @@ public class EventsImpl implements EventsService {
                 eventDto.getTags(), null));
 
 
-        return new EventResponseDto(save.);
+        return new EventResponseDto(save.getId(),save.getName(),save.getDescription(),save.getDate(),save.getLocation(),
+                save.getCreatedBy(),save.getCapacity(),save.getRemainingCapacity(),save.getTags(),"New Event Add Successful");
     }
+
+
 }

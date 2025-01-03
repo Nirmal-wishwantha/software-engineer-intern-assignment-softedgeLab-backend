@@ -4,10 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventResponseDto {
+
+    private Integer eventId;
+    private String name;
+    private String description;
+    private LocalDate date;
+    private String location;
+    private String createdBy;
+    private int capacity;
+    private int remainingCapacity;
+    private String tags;
+    private String massages;;
 
 
 }
