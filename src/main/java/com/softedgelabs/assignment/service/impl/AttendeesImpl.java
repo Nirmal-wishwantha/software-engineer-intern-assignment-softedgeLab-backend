@@ -1,60 +1,72 @@
 package com.softedgelabs.assignment.service.impl;
 
-import com.softedgelabs.assignment.dto.LoginDto;
-import com.softedgelabs.assignment.dto.RegisterDto;
-import com.softedgelabs.assignment.dto.ResponseDto;
+import com.softedgelabs.assignment.dto.AttendeesDto;
 import com.softedgelabs.assignment.entity.Attendees;
+import com.softedgelabs.assignment.entity.Events;
 import com.softedgelabs.assignment.repo.AttendeesRepo;
+import com.softedgelabs.assignment.repo.EventsRepo;
 import com.softedgelabs.assignment.service.AttendeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
+import java.util.Optional;
 
 @Service
 public class AttendeesImpl implements AttendeesService {
 
+    final EventsRepo eventsRepo;
     final AttendeesRepo attendeesRepo;
 
     @Autowired
-    public AttendeesImpl(AttendeesRepo attendeesRepo) {
+    public AttendeesImpl(EventsRepo eventsRepo, AttendeesRepo attendeesRepo) {
+        this.eventsRepo = eventsRepo;
         this.attendeesRepo = attendeesRepo;
     }
 
-
     @Override
-    public ResponseDto register(RegisterDto registerDto) {
+    public AttendeesDto registerAttendees(Integer id, AttendeesDto attendeesDto) {
 
-        Attendees byEmail = attendeesRepo.findByEmail(registerDto.getEmail());
+        System.out.println(attendeesDto.getName());
+        System.out.println(attendeesDto.getEmail());
 
-        if (byEmail != null) {
-            return new ResponseDto(registerDto.getName(),registerDto.getEmail(),"Already registered this username");
+        // Fetch the event
+        Optional<Events> optionalEvent = eventsRepo.findById(id);
+
+        if (optionalEvent.isEmpty()) {
+            throw new RuntimeException("Event not found with ID: " + id);
         }
 
-        String encodedPassword = Base64.getEncoder().encodeToString(registerDto.getPassword().getBytes());
+        Events event = optionalEvent.get();
 
-        Attendees save = attendeesRepo.save(new Attendees(null, registerDto.getName(), registerDto.getEmail(),
-                encodedPassword, null));
-
-        return new ResponseDto(save.getName(),save.getEmail(),"Registered successfully");
-    }
-
-    @Override
-    public ResponseDto login(LoginDto loginDto) {
-
-        Attendees byEmail = attendeesRepo.findByEmail(loginDto.getEmail());
-        String encodedPassword = Base64.getEncoder().encodeToString(loginDto.getPassword().getBytes());
-
-        if (byEmail != null) {
-
-            if (byEmail.getPassword().equals(encodedPassword)) {
-                return new ResponseDto(byEmail.getName(),byEmail.getEmail(),"Logged in successfully");
-            }
-            return new ResponseDto(byEmail.getName(),byEmail.getEmail(),"Wrong password");
+        // Validate event capacity
+        if (event.getRemainingCapacity() <= 0) {
+            throw new RuntimeException("Event is fully booked. No more attendees can be registered.");
         }
-        return new ResponseDto(loginDto.getEmail(),"email not registered");
+
+        // Create the Attendee object
+        Attendees attendees = new Attendees();
+        attendees.setAttendeeName(attendeesDto.getName());
+        attendees.setAttendeeEmail(attendeesDto.getEmail());
+        attendees.setEvent(event);
+
+        System.out.println(attendees.getAttendeeName());
+        System.out.println(attendees.getAttendeeEmail());
+
+        // Save the attendee to the database
+        Attendees savedAttendee = attendeesRepo.save(attendees);
+
+        // Update the event's remaining capacity
+        event.setRemainingCapacity(event.getRemainingCapacity() - 1);
+        eventsRepo.save(event);
 
 
+        // Return the response DTO
+        return new AttendeesDto(
+                savedAttendee.getAttendeeId(),
+                savedAttendee.getAttendeeName(),
+                savedAttendee.getAttendeeEmail(),
+                "Attendee registered successfully"
+        );
     }
 
 

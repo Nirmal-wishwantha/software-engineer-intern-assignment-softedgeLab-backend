@@ -30,7 +30,6 @@ public class Events {
     private int remainingCapacity;
     private String tags;
 
-//    @OneToMany(mappedBy = "registeredEvent", cascade = CascadeType.ALL)
-//    private List<Attendees> attendees = new ArrayList<Attendees>();
+
 
 }

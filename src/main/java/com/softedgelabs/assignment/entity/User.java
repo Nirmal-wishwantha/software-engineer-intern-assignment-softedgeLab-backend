@@ -9,16 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Attendees {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer attendeeId;
-    private String attendeeName;
-    private String attendeeEmail;
-
-    @ManyToOne
-    @JoinColumn(name = "registered_events")
-    private Events event;
+    private Integer id;
+    private String name;
+    private String email;
+    private String password;
 
 }

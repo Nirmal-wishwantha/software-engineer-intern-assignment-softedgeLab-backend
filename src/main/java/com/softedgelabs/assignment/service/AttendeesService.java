@@ -1,12 +1,9 @@
 package com.softedgelabs.assignment.service;
 
-import com.softedgelabs.assignment.dto.LoginDto;
-import com.softedgelabs.assignment.dto.RegisterDto;
-import com.softedgelabs.assignment.dto.ResponseDto;
+import com.softedgelabs.assignment.dto.AttendeesDto;
+import com.softedgelabs.assignment.entity.Attendees;
 
 public interface AttendeesService {
 
-    public ResponseDto register(RegisterDto registerDto);
-    public ResponseDto login(LoginDto loginDto);
-
+    public AttendeesDto registerAttendees(Integer id,AttendeesDto attendees);
 }
