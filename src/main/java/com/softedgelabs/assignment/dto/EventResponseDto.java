@@ -34,4 +34,15 @@ public class EventResponseDto {
         this.tags = tags;
         this.massages = massages;
     }
+
+    public EventResponseDto(String name, String description, LocalDate date, String location, String createdBy, int capacity, String tags, String massages) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.location = location;
+        this.createdBy = createdBy;
+        this.capacity = capacity;
+        this.tags = tags;
+        this.massages = massages;
+    }
 }

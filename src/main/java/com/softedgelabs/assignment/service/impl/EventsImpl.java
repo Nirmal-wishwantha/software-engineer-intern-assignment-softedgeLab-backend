@@ -34,18 +34,18 @@ public class EventsImpl implements EventsService {
 
         if(eventDto.getCapacity() <= 0){
             return new EventResponseDto(eventDto.getName(),eventDto.getDescription(),eventDto.getDate(),eventDto.getLocation(),
-                    eventDto.getCreatedBy(),eventDto.getCapacity(),eventDto.getRemainingCapacity(),eventDto.getTags(),
+                    eventDto.getCreatedBy(),eventDto.getCapacity(),eventDto.getTags(),
                     "This capacity must be greater than zero");
         }
 
         if(eventDto.getCapacity() > 100){
             return new EventResponseDto(eventDto.getName(),eventDto.getDescription(),eventDto.getDate(),eventDto.getLocation(),
-                    eventDto.getCreatedBy(),eventDto.getCapacity(),eventDto.getRemainingCapacity(),eventDto.getTags(),
+                    eventDto.getCreatedBy(),eventDto.getCapacity(),eventDto.getTags(),
                     "This capacity must be lesthan than 100");
         }
 
         Events save = eventsRepo.save(new Events(null, eventDto.getName(), eventDto.getDescription(), eventDto.getDate(),
-                eventDto.getLocation(), eventDto.getCreatedBy(), eventDto.getCapacity(), eventDto.getRemainingCapacity(),
+                eventDto.getLocation(), eventDto.getCreatedBy(), eventDto.getCapacity(), eventDto.getCapacity(),
                 eventDto.getTags()));
 
 
@@ -82,7 +82,7 @@ public class EventsImpl implements EventsService {
             existingEvent.setLocation(eventDto.getLocation());
             existingEvent.setCreatedBy(eventDto.getCreatedBy());
             existingEvent.setCapacity(eventDto.getCapacity());
-            existingEvent.setRemainingCapacity(eventDto.getRemainingCapacity());
+            existingEvent.setRemainingCapacity(eventDto.getCapacity());
             existingEvent.setTags(eventDto.getTags());
 
             Events updatedEvent = eventsRepo.save(existingEvent);

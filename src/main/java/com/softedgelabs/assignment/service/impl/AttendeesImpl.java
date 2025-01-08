@@ -26,10 +26,15 @@ public class AttendeesImpl implements AttendeesService {
     @Override
     public AttendeesDto registerAttendees(Integer id, AttendeesDto attendeesDto) {
 
-        System.out.println(attendeesDto.getName());
-        System.out.println(attendeesDto.getEmail());
+        System.out.println(attendeesDto.getAttendeeEmail());
+        System.out.println(attendeesDto.getAttendeeName());
 
-        // Fetch the event
+        Attendees byAttendeeEmail = attendeesRepo.findByAttendeeEmailAndEvent_Id(attendeesDto.getAttendeeEmail(),id);
+        if (byAttendeeEmail != null) {
+            return new AttendeesDto(null,attendeesDto.getAttendeeName(),attendeesDto.getAttendeeEmail(),"Already registered");
+
+        }
+
         Optional<Events> optionalEvent = eventsRepo.findById(id);
 
         if (optionalEvent.isEmpty()) {
@@ -38,29 +43,23 @@ public class AttendeesImpl implements AttendeesService {
 
         Events event = optionalEvent.get();
 
-        // Validate event capacity
         if (event.getRemainingCapacity() <= 0) {
             throw new RuntimeException("Event is fully booked. No more attendees can be registered.");
         }
 
-        // Create the Attendee object
         Attendees attendees = new Attendees();
-        attendees.setAttendeeName(attendeesDto.getName());
-        attendees.setAttendeeEmail(attendeesDto.getEmail());
+        attendees.setAttendeeName(attendeesDto.getAttendeeName());
+        attendees.setAttendeeEmail(attendeesDto.getAttendeeEmail());
         attendees.setEvent(event);
 
         System.out.println(attendees.getAttendeeName());
         System.out.println(attendees.getAttendeeEmail());
 
-        // Save the attendee to the database
         Attendees savedAttendee = attendeesRepo.save(attendees);
 
-        // Update the event's remaining capacity
         event.setRemainingCapacity(event.getRemainingCapacity() - 1);
         eventsRepo.save(event);
 
-
-        // Return the response DTO
         return new AttendeesDto(
                 savedAttendee.getAttendeeId(),
                 savedAttendee.getAttendeeName(),

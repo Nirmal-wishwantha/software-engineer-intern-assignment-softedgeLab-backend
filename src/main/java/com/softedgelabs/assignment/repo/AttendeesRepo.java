@@ -8,4 +8,6 @@ import java.util.List;
 public interface AttendeesRepo extends JpaRepository<Attendees, Integer> {
 
     List<Attendees> findByEventId(int eventId);
+
+    Attendees findByAttendeeEmailAndEvent_Id(String email,Integer eventId);
 }

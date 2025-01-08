@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class AttendeesDto {
 
     private Integer id;
-    private String name;
-    private String email;
+    private String attendeeName;
+    private String attendeeEmail;
     private String massages;
 
 

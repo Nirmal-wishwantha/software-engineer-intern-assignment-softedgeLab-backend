@@ -18,7 +18,7 @@ public class EventDto {
     private String location;
     private String createdBy;
     private int capacity;
-    private int remainingCapacity;
+//    private int remainingCapacity;
     private String tags;
 
 }
