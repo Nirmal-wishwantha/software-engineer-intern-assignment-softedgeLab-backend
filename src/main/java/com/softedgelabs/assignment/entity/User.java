@@ -4,22 +4,18 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Attendees {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer attendeeId;
-    private String attendeeName;
-    private String attendeeEmail;
-
-    @ManyToOne
-    @JoinColumn(name = "registered_events")
-    private Events event;
+    private Integer id;
+    private String name;
+    private String email;
+    private String password;
 
 }
