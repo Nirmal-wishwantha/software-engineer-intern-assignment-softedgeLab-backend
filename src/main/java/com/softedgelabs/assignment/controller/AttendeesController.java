@@ -5,10 +5,7 @@ import com.softedgelabs.assignment.service.AttendeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/attendees")
@@ -23,7 +20,7 @@ public class AttendeesController {
 
 
     @PostMapping("/{id}")
-    public ResponseEntity<AttendeesDto> attendeesRegister(@PathVariable Integer id, AttendeesDto attendeesDto) {
+    public ResponseEntity<AttendeesDto> attendeesRegister(@PathVariable Integer id, @RequestBody AttendeesDto attendeesDto) {
         AttendeesDto attendeesDto1 = attendeesService.registerAttendees(id, attendeesDto);
         return new ResponseEntity<>(attendeesDto1, HttpStatus.CREATED);
     }

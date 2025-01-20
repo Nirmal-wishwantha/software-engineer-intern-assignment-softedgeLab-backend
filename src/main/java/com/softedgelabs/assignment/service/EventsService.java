@@ -1,11 +1,10 @@
 package com.softedgelabs.assignment.service;
 
 
-import com.softedgelabs.assignment.dto.EventAnalyticsDto;
-import com.softedgelabs.assignment.dto.EventDto;
-import com.softedgelabs.assignment.dto.EventResponseDto;
-import com.softedgelabs.assignment.dto.RegisterDto;
+import com.softedgelabs.assignment.dto.*;
+import com.softedgelabs.assignment.entity.Events;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface EventsService {
@@ -19,6 +18,8 @@ public interface EventsService {
     public List<EventResponseDto> getAllEvents();
 
     public EventAnalyticsDto getEventAnalytics(Integer eventId);
+
+    public List<EventDto> getFilteredEvents(LocalDate startDate,String location,String tags);
 
 
 }

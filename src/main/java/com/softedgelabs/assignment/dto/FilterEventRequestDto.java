@@ -5,19 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventDto {
+public class FilterEventRequestDto {
 
-    private String name;
-    private String description;
-    private LocalDate date;
+    private LocalDate Date;
     private String location;
-    private String createdBy;
-    private int capacity;
     private String tags;
 
 }
