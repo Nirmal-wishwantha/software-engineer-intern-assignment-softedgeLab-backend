@@ -17,6 +17,7 @@ public class Attendees {
     private Integer attendeeId;
     private String attendeeName;
     private String attendeeEmail;
+    private String mobile;
 
     @ManyToOne
     @JoinColumn(name = "registered_events")

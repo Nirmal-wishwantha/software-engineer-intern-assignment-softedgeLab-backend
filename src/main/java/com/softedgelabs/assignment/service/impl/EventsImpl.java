@@ -3,6 +3,7 @@ package com.softedgelabs.assignment.service.impl;
 import com.softedgelabs.assignment.dto.EventAnalyticsDto;
 import com.softedgelabs.assignment.dto.EventDto;
 import com.softedgelabs.assignment.dto.EventResponseDto;
+import com.softedgelabs.assignment.dto.FilterEventRequestDto;
 import com.softedgelabs.assignment.entity.Attendees;
 import com.softedgelabs.assignment.entity.Events;
 import com.softedgelabs.assignment.repo.AttendeesRepo;
@@ -146,11 +147,39 @@ public class EventsImpl implements EventsService {
             double capacityUtilization = ((double) totalAttendees / events.getCapacity() * 100);
 
             return new EventAnalyticsDto(events.getId(),events.getName(),totalAttendees,events.getCapacity(),capacityUtilization,
-                    "Total filed event " + totalAttendees+"%" + " attendees");
+                    "Total filed event " + capacityUtilization+"%" + " attendees");
 
         }
 
         return new EventAnalyticsDto(byId.get().getId(),byId.get().getName(),"Event Not Found");
+    }
+
+
+    @Override
+    public List<EventDto> getFilteredEvents(LocalDate date, String location, String tags) {
+
+        List<Events> eventsWithFilters = eventsRepo.findEventsWithFilters(date, location, tags);
+
+        List<EventDto> filteredEvents = new ArrayList<>();
+
+        for (Events event : eventsWithFilters) {
+            EventDto eventDto = new EventDto();
+            eventDto.setName(event.getName());
+            eventDto.setDescription(event.getDescription());
+            eventDto.setDate(event.getDate());
+            eventDto.setLocation(event.getLocation());
+            eventDto.setCreatedBy(event.getCreatedBy());
+            eventDto.setCapacity(event.getCapacity());
+            eventDto.setDate(event.getDate());
+            eventDto.setTags(event.getTags());
+
+            filteredEvents.add(eventDto);
+
+        }
+
+
+       return filteredEvents;
+
     }
 
 

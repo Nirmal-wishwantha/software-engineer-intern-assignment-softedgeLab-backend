@@ -31,7 +31,8 @@ public class AttendeesImpl implements AttendeesService {
 
         Attendees byAttendeeEmail = attendeesRepo.findByAttendeeEmailAndEvent_Id(attendeesDto.getAttendeeEmail(),id);
         if (byAttendeeEmail != null) {
-            return new AttendeesDto(null,attendeesDto.getAttendeeName(),attendeesDto.getAttendeeEmail(),"Already registered");
+            return new AttendeesDto(null,attendeesDto.getAttendeeName(),attendeesDto.getAttendeeEmail(),attendeesDto.getMobile()
+                    ,"Already registered");
 
         }
 
@@ -50,6 +51,7 @@ public class AttendeesImpl implements AttendeesService {
         Attendees attendees = new Attendees();
         attendees.setAttendeeName(attendeesDto.getAttendeeName());
         attendees.setAttendeeEmail(attendeesDto.getAttendeeEmail());
+        attendees.setMobile(attendeesDto.getMobile());
         attendees.setEvent(event);
 
         System.out.println(attendees.getAttendeeName());
@@ -64,6 +66,7 @@ public class AttendeesImpl implements AttendeesService {
                 savedAttendee.getAttendeeId(),
                 savedAttendee.getAttendeeName(),
                 savedAttendee.getAttendeeEmail(),
+                savedAttendee.getMobile(),
                 "Attendee registered successfully"
         );
     }

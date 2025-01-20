@@ -12,6 +12,8 @@ public class AttendeesDto {
     private Integer id;
     private String attendeeName;
     private String attendeeEmail;
+    private String mobile;
+
     private String massages;
 
 

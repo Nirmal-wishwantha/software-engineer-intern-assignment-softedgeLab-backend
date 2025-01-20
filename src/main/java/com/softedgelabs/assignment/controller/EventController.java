@@ -3,12 +3,14 @@ package com.softedgelabs.assignment.controller;
 import com.softedgelabs.assignment.dto.EventAnalyticsDto;
 import com.softedgelabs.assignment.dto.EventDto;
 import com.softedgelabs.assignment.dto.EventResponseDto;
+import com.softedgelabs.assignment.entity.Events;
 import com.softedgelabs.assignment.service.EventsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -51,6 +53,18 @@ public class EventController {
     public ResponseEntity<EventAnalyticsDto> getEventAnalytics(@PathVariable Integer id) {
         EventAnalyticsDto eventAnalytics = eventsService.getEventAnalytics(id);
         return new ResponseEntity<>(eventAnalytics, HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<EventDto>> filterEvents(
+
+            @RequestParam(required = false) LocalDate date,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String tags) {
+
+        List<EventDto> filteredEvents = eventsService.getFilteredEvents(date, location, tags);
+
+        return new ResponseEntity<>(filteredEvents, HttpStatus.OK);
     }
 
 
